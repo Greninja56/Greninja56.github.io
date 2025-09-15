@@ -1,19 +1,13 @@
-/* ================================
-   Colors & Fonts
-   ================================ */
-:root {
-  --primary: #0077B6;       /* Ocean blue */
-  --accent: #90E0EF;        /* Light aqua */
-  --neutral-light: #F8FAFC; /* Light background */
-  --neutral-dark: #1E293B;  /* Dark text */
+root {
+  --primary: #0077B6;       
+  --accent: #90E0EF;        
+  --neutral-light: #F8FAFC; 
+  --neutral-dark: #1E293B;  
 
   --font-heading: 'Helvetica Neue', sans-serif;
   --font-body: 'Arial', sans-serif;
 }
 
-/* ================================
-   Base
-   ================================ */
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -30,9 +24,6 @@ a:hover {
   color: var(--accent);
 }
 
-/* ================================
-   Typography
-   ================================ */
 h1, h2, h3 {
   font-family: var(--font-heading);
   margin-bottom: 0.5em;
@@ -41,18 +32,12 @@ h1 { font-size: 2rem; }
 h2 { font-size: 1.5rem; }
 h3 { font-size: 1.25rem; }
 
-/* ================================
-   Layout
-   ================================ */
 section {
   padding: 2rem 1rem;
   max-width: 800px;
   margin: auto;
 }
 
-/* ================================
-   Navigation
-   ================================ */
 nav {
   background: var(--primary);
   padding: 1rem;
@@ -63,9 +48,6 @@ nav a {
   font-weight: bold;
 }
 
-/* ================================
-   Buttons
-   ================================ */
 .btn {
   display: inline-block;
   padding: 0.5rem 1rem;
