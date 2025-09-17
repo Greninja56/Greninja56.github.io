@@ -1,0 +1,44 @@
+.card {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  max-width: 400px;
+  padding: 1rem;
+  font-family: sans-serif;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.expand-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.expand-btn:hover,
+.expand-btn:focus {
+  background-color: #388e3c;
+  outline: none;
+}
+
+.details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.details.show {
+  max-height: 400px;
+  opacity: 1;
+}

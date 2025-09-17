@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Expandable Card</title>
+  <style>
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      max-width: 400px;
+      padding: 1rem;
+      font-family: sans-serif;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .expand-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .expand-btn:hover,
+    .expand-btn:focus {
+      background-color: #388e3c;
+      outline: none;
+    }
+
+    .details {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    .details.show {
+      max-height: 200px;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="card-header">
+      <h3>Soccer</h3>
+      <button 
+        class="expand-btn" 
+        aria-expanded="false"
+      >+</button>
+    </div>
+    <div class="card-content">
+      <p class="summary">Soccer?</p>
+      <div class="details">
+        <p>Playing every Saturday at 10am. Gear not needed. All skill levels welcome.</p>
+        <p>Contact: soccer@soccer.org</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Run only after the page is loaded
+    document.addEventListener("DOMContentLoaded", () => {
+      const expandBtns = document.querySelectorAll('.expand-btn');
+
+      expandBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const card = btn.closest('.card');
+          const details = card.querySelector('.details');
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+
+          btn.setAttribute('aria-expanded', !expanded);
+          btn.textContent = expanded ? '+' : '–';
+          details.classList.toggle('show');
+        });
+      });
+    });
+  </script>
+</body>
+</html>
