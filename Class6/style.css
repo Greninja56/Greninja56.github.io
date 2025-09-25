@@ -1,0 +1,41 @@
+/* Layout Container using Grid */
+.gallery-container {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "nav    sidebar"
+    "main   sidebar";
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto auto 1fr;
+  gap: 1rem;
+  min-height: 100vh;
+}
+
+/* Assign areas */
+.gallery-header { grid-area: header; }
+.gallery-nav { grid-area: nav; }
+.gallery-grid { grid-area: main; }
+.gallery-sidebar { grid-area: sidebar; }
+
+/* Gallery Grid with CSS Grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+/* Photos */
+.photo-card {
+  background: #ddd;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Featured spans 2 columns */
+.featured {
+  grid-column: span 2;
+  height: 300px;
+  background: #bbb;
+}
