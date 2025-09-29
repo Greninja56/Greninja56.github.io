@@ -24,34 +24,48 @@
   </nav>
 
   <main class="reflection-page">
-      <h2>Phase 1: Exploring Communities</h2>
-      <ul>
-        <li><strong>CU Overwatch:</strong> The school’s Overwatch team</li>
-        <li><strong>CU Club Soccer:</strong> The school’s soccer team</li>
-        <li><strong>Crimdra Overwatch:</strong> An esports organization primarily focused on Overwatch</li>
-      </ul>
-      <h2>Phase 2: Community Needs</h2>
-      <ul>
-        <li><strong>Community:</strong> CU Overwatch (the school’s team)</li>
-        <li><strong>Primary Needs:</strong> Updated info, links to socials, content that makes the team look active & legit</li>
-        <li><strong>Current Gaps:</strong> All of the above were missing</li>
-        <li><strong>Target Users:</strong> Primarily college students</li>
-        <li><strong>Success Metric:</strong> Measured by new members joining the team or Discord</li>
-      </ul>
-      <h2>Key Features:</h2>
-      <ul>
-        <li>Rosters for existing teams</li>
-        <li>Nav bar</li>
-        <li>Form to join/tryout</li>
-      </ul>
-      <h2>Post Creation</h2>
-      <ul>
-        <li>My navigation makes it easy to get around since the most important stuff like the roster and tryouts
-            are always just one click away. I set it up so it works on phones too, with a hamburger menu that’s 
-            simple to use. I tried to make it more accessible with ARIA labels and big buttons, though it could still use better 
-            focus states or high contrast. Overall, it’s built to help CU Overwatch students quickly find what they need, and 
-            if I kept working on it, I’d add little touches like icons and skip links to make it even smoother.</li>
-      </ul>
+      <p>
+        The CU Overwatch Hub was designed to provide Colorado University players, supporters, 
+        and prospective team members with a centralized, accessible space to view rosters, track players, 
+        and find opportunities to join the team. Every technical decision was guided by the community’s 
+        needs, emphasizing information accessibility, inclusive interaction, and user agency. CSS Grid was 
+        used to structure the site in a way that highlights content based on priority rather than purely aesthetic 
+        considerations. The homepage features a central hero section, a “quick access” sidebar for upcoming matches 
+        and join links, and a features section outlining the hub’s core benefits. Named grid areas such as hero, quick, 
+        and features ensure a logical reading flow and semantic clarity, while responsive adjustments allow the layout 
+        to remain usable across laptops, tablets, and smartphones.
+      </p>
+      <p>
+        The roster page employs a distinct grid layout optimized for browsing player cards. The filter section uses named 
+        grid areas (search, role, team) to place key controls at the top, giving users immediate access to search and filtering tools. 
+        The team grid displays player cards in flexible, auto-adjusting columns, allowing the roster to adapt naturally to different 
+        screen widths. These two layouts differ both visually and functionally, creating tailored interfaces for different user tasks: 
+        general information on the homepage and interactive exploration on the roster page. This content-first approach ensures that users 
+        can find relevant information quickly without navigating through unnecessary decorative elements.
+      </p>
+      <p>
+        Three core JavaScript features were implemented to directly serve community needs. The navigation toggle allows mobile users to expand and 
+        collapse the menu using either a button click or keyboard input (Enter/Space), ensuring accessibility regardless of device or input method. 
+        The roster filters and search feature enables community members to locate players by name, role, or team, giving them direct control over 
+        how they interact with the roster. These features degrade gracefully, so the full roster remains visible if JavaScript fails. Follow buttons 
+        allow users to mark players they want to track, updating the button text and aria-pressed state to provide immediate visual and screen-reader 
+        feedback. All features were coded using querySelector and addEventListener, with multiple event types represented, and they include clear feedback for all interactions.
+      </p>
+      <p>
+        The site was tested with two community members: a CU Overwatch player and a student familiar with esports team websites. Both testers used the search and 
+        filter system, tried the follow buttons, and navigated the site on mobile. One tester noted that the follow buttons did not clearly indicate whether a player was
+         followed, while another suggested improving the descriptive labeling of filter inputs. Both testers confirmed that the navigation toggle worked well on mobile devices 
+         and that the roster filters were intuitive. Based on this feedback, aria-pressed was added to follow buttons, filter input labels were clarified, and focus states were 
+         enhanced. These changes improved accessibility, clarified feedback, and confirmed that the site’s core functionality works across devices and abilities.
+      </p>
+      <p>
+        No personal data is stored, and all interactive features operate entirely on the client side. Follow states exist only for the current session, and search and filter 
+        operations do not track or save user information. Interactive elements were designed to give users control over their experience: they can filter, search, and follow players 
+        without creating an account or sharing data, which reduces risk and fosters trust. User testing highlighted the importance of immediate feedback and accessibility, even for 
+        seemingly minor interface elements, and progressive enhancement ensures that all essential information remains accessible even if scripts fail or connections are slow. If given 
+        more time, additional features such as opt-in match notifications and a secure preference-saving system could further enhance user experience, but the current site successfully 
+        balances functionality, accessibility, and social responsibility.
+      </p>
   </main>
 
   <script src="script.js" defer></script>
