@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roster</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="main-nav">
+    <div class="nav-brand">CU Overwatch</div>
+    <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <button id="themeToggle" aria-pressed="false">Switch to Dark Mode</button>
+    <ul class="nav-menu">
+        <li><a href="wa8.html">Home</a></li>
+        <li><a href="roster.html" class="active" aria-current="page">Roster</a></li>
+        <li><a href="join.html">Join Us!</a></li>
+    </ul>
+  </nav>
+
+  <main id="mainContent" class="roster-page">
+
+    <!-- Filter Section -->
+    <section class="filter-section" aria-label="Player filters">
+      <div class="filter-group">
+        <label for="searchInput">Search Players</label>
+        <input type="text" id="searchInput" placeholder="Search by name..." />
+      </div>
+
+      <div class="filter-group">
+        <label for="roleFilter">Filter by Role</label>
+        <select id="roleFilter" aria-label="Filter by role">
+          <option value="">All Roles</option>
+          <option value="tank">Tank</option>
+          <option value="dps">DPS</option>
+          <option value="support">Support</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="teamFilter">Filter by Team</label>
+        <select id="teamFilter" aria-label="Filter by team">
+          <option value="">Both Teams</option>
+          <option value="gold-team">Gold Team</option>
+          <option value="black-team">Black Team</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Gold Team -->
+    <h1>Gold Team</h1>
+    <div class="team-grid gold-team">
+      <div class="player-card" data-role="tank" data-team="gold-team">
+        <h2>Billy Bob <span class="role tank">Tank</span></h2>
+        <p>Favorite Hero: Hazard</p>
+        <p>Peak Rank: Top 100</p>
+        <p>Years on Team: 3</p>
+        <button class="follow-btn" aria-label="Follow Player">Follow ⭐</button>
+      </div>
+      <div class="player-card" data-role="dps" data-team="gold-team">
+        <h2>Jonny Storm <span class="role dps">DPS</span></h2>
+        <p>Favorite Hero: Genji</p>
+        <p>Peak Rank: Grandmaster 2</p>
+        <p>Years on Team: 2</p>
+        <button class="follow-btn" aria-label="Follow Player">Follow ⭐</button>
+      </div>
+      <div class="player-card" data-role="dps" data-team="gold-team">
+        <h2>Frank Chartu <span class="role dps">DPS</span></h2>
+        <p>Favorite Hero: Genji</p>
+        <p>Peak Rank: Grandmaster 3</p>
+        <p>Years on Team: 1</p>
+        <button class="follow-btn" aria-label="Follow Player">Follow ⭐</button>
+      </div>
+      <div class="player-card" data-role="support" data-team="gold-team">
+        <h2>Molly Forgen <span class="role support">Support</span></h2>
+        <p>Favorite Hero: D.Va</p>
+        <p>Peak Rank: Grandmaster 5</p>
+        <p>Years on Team: 2</p>
+        <button class="follow-btn" aria-label="Follow Player">Follow ⭐</button>
+      </div>
+      <div class="player-card" data-role="support" data-team="gold-team">
+        <h2>Kyle Catyre <span class="role support">Support</span></h2>
+        <p>Favorite Hero: Ana</p>
+        <p>Peak Rank: Top 400</p>
+        <p>Years on Team: 4</p>
+        <button class="follow-btn" aria-label="Follow Player">Follow ⭐</button>
+      </div>
+      <div class="player-card" data-role="tank" data-team="gold-team">
+        <h2>Penny Lohst <span class="role tank">Tank</span></h2>
+        <p>Favorite Hero: Reinhardt</p>
+        <p>Peak Rank: Masters 1</p>
+        <p>Years on Team: 1</p>
+        <button class="follow-btn" aria-label="Follow Player">Follow ⭐</button>
+      </div>
+      <div class="player-card" data-role="dps" data-team="gold-team">
+        <h2>Nolan Ergef <span class="role dps">DPS</span></h2>
+        <p>Favorite Hero: Bastion</p>
+        <p>Peak Rank: Masters 3</p>
+        <p>Years on Team: 2</p>
+        <button class="follow-btn" aria-label="Follow Player">Follow ⭐</button>
+      </div>
+      <div class="player-card" data-role="support" data-team="gold-team">
+        <h2>Anna Fipotri <span class="role support">Support</span></h2>
+        <p>Favorite Hero: Lucio</p>
+        <p>Peak Rank: Grandmaster 5</p>
+        <p>Years on Team: 1</p>
+        <button class="follow-btn" aria-label="Follow Player">Follow ⭐</button>
+      </div>
+    </div>
+
+    <!-- Black Team -->
+    <h1>Black Team</h1>
+    <div class="team-grid black-team">
+      <div class="player-card" data-role="tank" data-team="black-team">
+        <h2>Bob Bob <span class="role tank">Tank</span></h2>
+        <p>Favorite Hero: Wrecking Ball</p>
+        <p>Peak Rank: Diamond 1</p>
+        <p>Years on Team: 2</p>
+        <button class="follow-btn" aria-label="Follow Player">Follow ⭐</button>
+      </div>
+      <div class="player-card" data-role="dps" data-team="black-team">
+        <h2>Katie Smith <span class="role dps">DPS</span></h2>
+        <p>Favorite Hero: Reaper</p>
+        <p>Peak Rank: Platinum 5</p>
+        <p>Years on Team: 1</p>
+        <button class="follow-btn" aria-label="Follow Player">Follow ⭐</button>
+      </div>
+      <div class="player-card" data-role="dps" data-team="black-team">
+        <h2>N'gobu Okoye <span class="role dps">DPS</span></h2>
+        <p>Favorite Hero: Illari</p>
+        <p>Peak Rank: Diamond 5</p>
+        <p>Years on Team: 3</p>
+        <button class="follow-btn" aria-label="Follow Player">Follow ⭐</button>
+      </div>
+      <div class="player-card" data-role="support" data-team="black-team">
+        <h2>Lin Lie <span class="role support">Support</span></h2>
+        <p>Favorite Hero: Zenyatta</p>
+        <p>Peak Rank: Platinum 2</p>
+        <p>Years on Team: 2</p>
+        <button class="follow-btn" aria-label="Follow Player">Follow ⭐</button>
+      </div>
+      <div class="player-card" data-role="support" data-team="black-team">
+        <h2>Cassian Andor <span class="role support">Support</span></h2>
+        <p>Favorite Hero: Reinhardt</p>
+        <p>Peak Rank: Gold 1</p>
+        <p>Years on Team: 1</p>
+        <button class="follow-btn" aria-label="Follow Player">Follow ⭐</button>
+      </div>
+      <div class="player-card" data-role="tank" data-team="black-team">
+        <h2>Eva Cole <span class="role tank">Tank</span></h2>
+        <p>Favorite Hero: Reinhardt</p>
+        <p>Peak Rank: Silver 1</p>
+        <p>Years on Team: 1</p>
+        <button class="follow-btn" aria-label="Follow Player">Follow ⭐</button>
+      </div>
+      <div class="player-card" data-role="dps" data-team="black-team">
+        <h2>Santiago Draven <span class="role dps">DPS</span></h2>
+        <p>Favorite Hero: Juno</p>
+        <p>Peak Rank: Gold 3</p>
+        <p>Years on Team: 2</p>
+        <button class="follow-btn" aria-label="Follow Player">Follow ⭐</button>
+      </div>
+      <div class="player-card" data-role="support" data-team="black-team">
+        <h2>Rocky Chase <span class="role support">Support</span></h2>
+        <p>Favorite Hero: Ashe</p>
+        <p>Peak Rank: Platinum 5</p>
+        <p>Years on Team: 1</p>
+        <button class="follow-btn" aria-label="Follow Player">Follow ⭐</button>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p class="privacy-note">
+      Want to reset your preferences? Double-click the "Switch Theme" button to clear all saved data.
+    </p>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
