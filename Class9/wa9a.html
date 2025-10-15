@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Loading Animation</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #000; 
+      font-family: sans-serif;
+    }
+    .loading-text {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="loading-text">Made that Loading thing in Design Foundations</div>
+
+  <!-- Include p5.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.js"></script>
+  <script>
+ //variables
+let angle = 0; 
+let speed = 0.004;
+let stars = [];
+let shipX = 0;
+let shipSpeed = 0.7;
+let loadingBar = 0;
+let shootingStars = [];
+let notes = [];
+let fishSchool = [];
+let submarine = null;
+let submarineBubbles = [];
+let shootingStarDuration = 60;
+let spawnDelay = 10;
+let nextSpawnTime = 0;
+let totalShootingStars = 0;
+
+//note burst variables
+let noteBurstQueue = 0;   // notes left in current burst
+let nextNoteFrame = 0;    // frame for next note in burst
+
+//set up canvas and add 150 stars to the background
+function setup() {
+  createCanvas(400, 500);
+  colorMode(RGB, 255);
+  for (let i = 0; i < 150; i++) {
+    stars.push({ x: random(width), y: random(height / 2), depth: random(0.5, 1.5), size: random(2, 4) }); 
+  }
+}
+
+//draw everything
+function draw() {
+  
+  //get values for sun and moon
+  let centerX = width / 2;
+  let centerY = height / 2;
+  let xRadius = 250; 
+  let yRadius = 200; 
+  
+  //get sun and moon constant location variables
+  let sunX = centerX + xRadius * cos(angle);
+  let sunY = centerY + yRadius * sin(angle); 
+  
+  let moonX = centerX + xRadius * cos(angle + PI);
+  let moonY = centerY + yRadius * sin(angle + PI); 
+  
+  //map sunY to day-night cycle progress
+  let t = map(sunY, centerY + yRadius, centerY - yRadius, 0, 1);
+  t = constrain(t, 0, 1);
+
+  //draw vertical gradient for sky
+  for (let i = 0; i < height; i++) {
+    let inter = map(i, 0, height, 0, 1);
+    let c;
+    if (t < 0.5) { 
+      c = lerpColor(color(0, 0, 102), color(255, 160, 100), t * 2); 
+    } else {
+      c = lerpColor(color(255, 160, 100), color(135, 206, 250), (t - 0.5) * 2); 
+    }
+    stroke(c);
+    line(0, i, width, i);
+  }
+  
+  drawStars(t);
+  
+  //draw the sun
+  if (sunY > 0 && sunY < height) {
+    fill(255, 204, 0); 
+    noStroke();
+    ellipse(sunX, sunY, 60, 60); 
+  }
+  
+  //draw the moon
+  if (moonY > 0 && moonY < height) {
+    fill(200); 
+    noStroke();
+    ellipse(moonX, moonY, 50, 50); 
+  }
+  
+  //draw the ocean and events
+  drawOcean();
+  drawFishSchool();  // normal swimming fish
+  drawShootingStars();
+  drawNotes();
+  drawSubmarine();
+  drawSubmarineBubbles();
+  
+  //boat stuff
+  drawShip(shipX);
+  
+  // spawn note bursts
+  if (noteBurstQueue === 0 && random() < 0.005) { 
+    noteBurstQueue = floor(random(3, 6)); // 3-5 notes
+    nextNoteFrame = frameCount;
+  }
+  if (noteBurstQueue > 0 && frameCount >= nextNoteFrame) {
+    spawnNote(shipX + random(-10, 10));
+    noteBurstQueue--;
+    nextNoteFrame = frameCount + 5; // 5 frame delay between notes
+  }
+  
+  shipX += shipSpeed;
+  if (shipX > width) {
+    shipX = -50; 
+  }
+  
+  //loading bar at bottom
+  fill(255); 
+  rect(0, height - 20, width, 20);   // background bar
+  fill(0, 255, 0); 
+  rect(0, height - 20, width * (loadingBar / 100), 20);  // progress
+  loadingBar += 0.1; 
+  if (loadingBar > 100) loadingBar = 0;
+  
+  // hint text
+  fill(255);
+  textSize(12);
+  textAlign(CENTER, BOTTOM);
+  text("Can you spot all the random events?", width / 2, height - 25);
+  
+  angle += speed;
+  
+  if (random() < 0.0005 && fishSchool.length === 0) { 
+  spawnFishSchool();
+}
+  
+  //random event chance for shooting stars
+  if (random() < 0.0005 && totalShootingStars === 0) {
+    let numStars = floor(random(5, 10)); 
+    totalShootingStars = numStars; 
+    nextSpawnTime = frameCount + spawnDelay; 
+  }
+  if (totalShootingStars > 0) {
+    if (frameCount >= nextSpawnTime) {
+      spawnShootingStar();
+      totalShootingStars--;
+      nextSpawnTime = frameCount + spawnDelay; 
+    }
+  }
+  
+  //random chance for submarine event
+  if (!submarine && random() < 0.001) {
+    spawnSubmarine();
+  }
+}
+
+// draw all background stars
+function drawStars(skyT) {
+  for (let star of stars) {
+    let fadeness = map(skyT, 0, 0.5, 255, 0);   // brighter at night
+    fill(255, fadeness * star.depth);          // apply star depth for variation
+    noStroke();
+    ellipse(star.x, star.y, star.size);
+  }
+}
+
+//shooting stars
+function spawnShootingStar() {
+  shootingStars.push({
+    x: width + random(20),
+    y: random(50),
+    length: random(15, 30),
+    duration: shootingStarDuration,
+  });
+}
+
+function drawShootingStars() {
+  for (let i = shootingStars.length - 1; i >= 0; i--) {
+    let star = shootingStars[i];
+    stroke(255);
+    line(star.x, star.y, star.x - star.length, star.y + star.length * 0.3); 
+    drawStar(star.x - star.length, star.y + star.length * 0.3); 
+    star.x -= 4; 
+    star.y += 1; 
+    if (star.y > height / 2 || star.x < 0) shootingStars.splice(i, 1);
+  }
+}
+
+function drawStar(x, y) {
+  fill(255);
+  noStroke();
+  let radius1 = 3, radius2 = 6, angleOffset = PI / 10; 
+  beginShape();
+  for (let a = 0; a < TWO_PI; a += PI / 5) {
+    let sx = x + cos(a + angleOffset) * radius2;
+    let sy = y + sin(a + angleOffset) * radius2;
+    vertex(sx, sy);
+    sx = x + cos(a + angleOffset + PI / 5) * radius1;
+    sy = y + sin(a + angleOffset + PI / 5) * radius1;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
+}
+
+//ocean
+function drawOcean() {
+  fill(0, 102, 204); 
+  noStroke();
+  beginShape();
+  for (let i = 0; i <= width; i += 5) {
+    let y = height - 200 + 20 * sin(i * 0.01);
+    vertex(i, y); 
+  }
+  vertex(width, height); 
+  vertex(0, height); 
+  endShape(CLOSE); 
+}
+
+//normal swimming fish
+function spawnFishSchool() {
+  for (let i = 0; i < 18; i++) {
+    fishSchool.push({
+      x: 0,
+      y: height - 110 + random(40), 
+      speed: random(1, 2)
+    });
+  }
+}
+
+function drawFishSchool() {
+  fill(255, 165, 0); 
+  for (let i = fishSchool.length - 1; i >= 0; i--) {
+    let fish = fishSchool[i];
+    ellipse(fish.x, fish.y, 10, 5); 
+    fish.x += fish.speed; 
+    if (fish.x > width) fishSchool.splice(i, 1);
+  }
+}
+
+//ship
+function drawShip(x) {
+  fill(139, 69, 19); 
+  noStroke();
+  let waveY = height - 207 + 20 * sin(x * 0.01);
+  beginShape();
+  vertex(x, waveY); 
+  vertex(x + 10, waveY + 17); 
+  vertex(x + 40, waveY + 17); 
+  vertex(x + 50, waveY); 
+  endShape(CLOSE); 
+  fill(255); 
+  triangle(x + 10, waveY, x + 40, waveY, x + 25, waveY - 40); 
+}
+
+//notes
+function spawnNote(x) {
+  notes.push({
+    x: x,
+    y: height - 207 - 40 + random(-5, 5),
+    lifespan: 60,
+    color: color(random(255), random(255), random(255))
+  });
+}
+
+function drawNotes() {
+  textSize(16);
+  for (let i = notes.length - 1; i >= 0; i--) {
+    let n = notes[i];
+    fill(n.color);
+    text('♪', n.x, n.y);
+    n.y -= 1;
+    n.lifespan--;
+    if (n.lifespan <= 0) notes.splice(i, 1);
+  }
+}
+
+//submarine
+function spawnSubmarine() {
+  submarine = {
+    x: 50,
+    y: height + 40,
+    targetY: height - 70,
+    state: "rising",
+    timer: 0
+  };
+}
+
+function drawSubmarine() {
+  if (!submarine) return;
+  fill(100, 150, 200);
+  rect(submarine.x, submarine.y, 80, 25, 10);
+  ellipse(submarine.x + 50, submarine.y, 20, 20);
+  
+  if (submarine.state === "rising") {
+    submarine.y -= 1;
+    if (submarine.y <= submarine.targetY) {
+      submarine.state = "paused";
+      submarine.timer = frameCount;
+    }
+  } else if (submarine.state === "paused") {
+    if (frameCount - submarine.timer > 120) submarine.state = "sinking";
+    else spawnSubmarineBubble();
+  } else if (submarine.state === "sinking") {
+    submarine.y += 1;
+    if (submarine.y > height + 40) submarine = null;
+  }
+}
+
+//bubbles
+function spawnSubmarineBubble() {
+  if (frameCount % 10 === 0) {
+    submarineBubbles.push({
+      x: submarine.x + 10 + random(20),
+      y: submarine.y + random(-3, 3),  // slightly above submarine
+      size: random(4, 7),
+      lifespan: 60
+    });
+  }
+}
+
+function drawSubmarineBubbles() {
+  for (let i = submarineBubbles.length - 1; i >= 0; i--) {
+    let b = submarineBubbles[i];
+    fill(173, 216, 230, map(b.lifespan, 0, 60, 0, 200));
+    noStroke();
+    ellipse(b.x, b.y, b.size);
+    b.y -= 1;
+    b.lifespan--;
+    if (b.lifespan <= 0) submarineBubbles.splice(i, 1);
+  }
+}
+  </script>
+</body>
+</html>
