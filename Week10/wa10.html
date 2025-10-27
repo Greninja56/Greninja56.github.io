@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Overwatch Hero API</title>
+  <style>
+    :root {
+      --ow-orange: #f99e1a;
+      --ow-blue: #00a8e1;
+      --ow-dark-gray: #2c2f33;
+      --ow-mid-gray: #1e2124;
+      --ow-light-gray: #f0f0f0;
+      --ow-white: #ffffff;
+    }
+
+    body {
+      background-color: var(--ow-dark-gray);
+      color: var(--ow-white);
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    #quote-box {
+      background-color: var(--ow-mid-gray);
+      border: 4px solid var(--ow-orange);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 550px;
+      margin: auto;
+      box-shadow: 0 0 20px rgba(249, 158, 26, 0.25);
+      transition: transform 0.2s ease;
+    }
+
+    #quote-box:hover {
+      transform: scale(1.02);
+    }
+
+    #hero-img {
+      border-radius: 50%;
+      width: 140px;
+      height: 140px;
+      margin: 1.2rem 0;
+      border: 4px solid var(--ow-blue);
+      object-fit: cover;
+      background: var(--ow-light-gray);
+    }
+
+    #hero-name {
+      font-size: 1.8rem;
+      color: var(--ow-orange);
+      margin-top: 0.5rem;
+    }
+
+    #hero-summary {
+      color: var(--ow-light-gray);
+      font-size: 1.05rem;
+      margin: 1.5rem 0;
+      line-height: 1.5;
+      text-align: left;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem;
+      border-radius: 10px;
+    }
+
+    button {
+      background: var(--ow-blue);
+      border: none;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background: #33c1ff;
+      transform: scale(1.05);
+    }
+
+    .spinner {
+      margin: 1rem auto;
+      border: 4px solid rgba(255,255,255,0.1);
+      border-top: 4px solid var(--ow-blue);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 0.8s linear infinite;
+      display: none;
+    }
+
+    #explanation {
+  max-width: 600px;
+  margin: 3rem auto 0 auto;
+  padding: 1.5rem 2rem;
+  background-color: rgba(0, 168, 225, 0.05); 
+  border-left: 6px solid #f99e1a; 
+  border-radius: 12px;
+  color: var(--ow-light-gray);
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+#explanation p {
+  margin-bottom: 1rem;
+}
+
+#explanation strong {
+  color: var(--ow-orange); 
+}
+
+ @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+}
+  </style>
+</head>
+<body>
+  <div id="quote-box">
+    <h1 id="hero-name">Overwatch Hero and Story</h1>
+    <div class="spinner" id="spinner"></div>
+    <img id="hero-img" src="" alt="Hero portrait">
+    <p id="hero-summary"></p>
+    <button id="new-quote">Get Random Hero</button>
+  </div>
+
+  <div id="explanation">
+  <p>
+    <strong>1:</strong> This project extends the original quote machine by using the Overfast Overwatch 
+    API to show random heroes from the Overwatch universe. Instead of a simple 
+    text quote, it dynamically loads each hero’s picture and story summary, giving 
+    the user a little knowledge of the lore and personality behind the characters. The page was 
+    redesigned with a custom Overwatch color scheme of orange, blue, and gray, and 
+    includes a loading animation to enhance the user experience.
+  </p>
+
+  <p>
+    <strong>2:</strong> In my critique project, I don't know if I want to stick with Spotify after
+    seeing all the other options. I might do something with like game matchmaking instead. 
+    For example, I might use a gaming API to help fix common problems seen with matchmaking, 
+    Stuff like high rank disparity or amount of games played. APIs could provide real-world data that helps 
+    support gameplay trends, player engagement, or community behaviors to larger scopes.
+  </p>
+</div>
+
+  <script>
+    const button = document.getElementById('new-quote');
+    const heroName = document.getElementById('hero-name');
+    const heroSummary = document.getElementById('hero-summary');
+    const heroImg = document.getElementById('hero-img');
+    const spinner = document.getElementById('spinner');
+
+    button.addEventListener('click', async () => {
+      heroName.textContent = 'Loading hero...';
+      heroSummary.textContent = '';
+      heroImg.src = '';
+      spinner.style.display = 'block';
+
+      try {
+        const heroesRes = await fetch('https://overfast-api.tekrop.fr/heroes');
+        const heroes = await heroesRes.json();
+        const randomHero = heroes[Math.floor(Math.random() * heroes.length)];
+
+        const heroDetailsRes = await fetch(`https://overfast-api.tekrop.fr/heroes/${randomHero.key}`);
+        const heroDetails = await heroDetailsRes.json();
+
+        heroName.textContent = heroDetails.name;
+        heroImg.src = heroDetails.portrait;
+
+        let summary = heroDetails.story?.summary || heroDetails.description || "No story available.";
+        heroSummary.textContent = summary;
+
+      } catch (err) {
+        console.error(err);
+        heroName.textContent = "Error loading hero 😢";
+        heroSummary.textContent = "Please try again.";
+      } finally {
+        spinner.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
