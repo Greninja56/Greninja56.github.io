@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy-Friendly Weather App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>🌤 Privacy-Friendly Weather Dashboard</h1>
+
+  <div id="controls">
+    <label for="privacy">Choose your privacy level:</label>
+    <select id="privacy">
+      <option value="manual">Manual City Entry</option>
+      <option value="city">City-Level (by name)</option>
+      <option value="precise">Exact Location</option>
+    </select>
+    <button id="fetchWeather">Get Weather</button>
+  </div>
+
+  <div id="manualInput">
+  <input type="text" id="cityInput" placeholder="Enter city name">
+  </div>
+
+  <div id="weather"></div>
+  <div id="error"></div>
+
+  <footer>
+    <p>Data from <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>. 
+       Your location choice controls how much data is shared.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
